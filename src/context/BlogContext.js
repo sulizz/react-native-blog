@@ -1,12 +1,12 @@
-import React, { useReducer, useState } from "react";
-const BlogContext = React.createContext();
+//Reducer Refactored
+import createDataContext from "./createDataContext";
 
-const reducer = (state, action) => {
+const blogReducer = (state, action) => {
     //state is our current state, where our state is currently at
     //action is what we pass into the dispatch function
 
     switch (action.type) {
-        case "addBlogPost":
+        case "add_blogPost":
             return [...state, { title: `My BlogPost #${state.length + 1}` }];
 
         default:
@@ -14,19 +14,56 @@ const reducer = (state, action) => {
     }
 };
 
-export const BlogProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(reducer, [
-        { title: "My BlogPost #1" },
-    ]);
-
-    return (
-        <BlogContext.Provider value={{ state: state, dispatch: dispatch }}>
-            {children}
-        </BlogContext.Provider>
-    );
+const addBlogPost = (dispatch) => {
+    return () => {
+        dispatch({
+            type: "add_blogPost",
+        });
+    };
 };
 
-export default BlogContext;
+export const { Context, Provider } = createDataContext(
+    blogReducer,
+    { addBlogPost },
+    []
+);
+
+//Reducer
+// import React, { useReducer, useState } from "react";
+// const BlogContext = React.createContext();
+
+// const blogReducer = (state, action) => {
+//     //state is our current state, where our state is currently at
+//     //action is what we pass into the dispatch function
+
+//     switch (action.type) {
+//         case "add_blogPost":
+//             return [...state, payload];
+
+//         default:
+//             return state;
+//     }
+// };
+
+// export const BlogProvider = ({ children }) => {
+//     const [state, dispatch] = useReducer(blogReducer, []);
+
+//     const addBlogPost = () => {
+//         dispatch({
+//             type: "add_blogPost",
+//             payload: { title: `My BlogPost #${state.length + 1}` },
+//         });
+//     };
+//     return (
+//         <BlogContext.Provider
+//             value={{ state: state, addBlogPost: addBlogPost }}
+//         >
+//             {children}
+//         </BlogContext.Provider>
+//     );
+// };
+
+// export default BlogContext;
 
 //create a context obj
 //show context obj thing.Provider
