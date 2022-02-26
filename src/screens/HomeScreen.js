@@ -11,7 +11,7 @@ import { Context } from "../context/BlogContext";
 import { AntDesign } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }) => {
-    const { state, addBlogPost, deleteBlogPost } = useContext(Context);
+    const { state, deleteBlogPost } = useContext(Context);
     return (
         <View>
             <FlatList
