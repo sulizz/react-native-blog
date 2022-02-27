@@ -1,5 +1,6 @@
 //Reducer Refactored
 import createDataContext from "./createDataContext";
+import jsonServer from "../api/jsonServer";
 
 const blogReducer = (state, action) => {
     //state is our current state, where our state is currently at
@@ -54,55 +55,73 @@ const blogReducer = (state, action) => {
             return state.map((blog) => {
                 return blog.id === action.payload.id ? action.payload : blog;
             });
+        case "get_blogposts":
+            return action.payload;
         default:
             return state;
     }
 };
 
 //action function
-const addBlogPost = (dispatch) => {
-    return (title, content, callback) => {
-        dispatch({
-            type: "add_blogPost",
-            payload: {
-                title: title,
-                content: content,
-            },
-        });
-        if (callback) {
-            callback();
-        }
-    };
-};
+//makes a request to the Server
+const fetchBlogPost = (dispatch) => {
+    return async () => {
+        //gets concatated with baseURL
+        // "http://52f9-2600-1700-bf91-4000-ed47-4bfc-f07e-152e.ngrok.io/blogPosts",
+        const response = await jsonServer.get("/blogPosts");
+        //response.data = []
 
-const deleteBlogPost = (dispatch) => {
-    return (id) => {
         dispatch({
-            type: "delete_blogPost",
-            payload: id,
+            type: "get_blogposts",
+            payload: response.data,
         });
     };
 };
 
-const editBlogPost = (dispatch) => {
-    return (id, title, content, callback) => {
-        dispatch({
-            type: "edit_blogPost",
-            payload: {
-                id: id,
-                title: title,
-                content: content,
-            },
-        });
-        if (callback) {
-            callback();
-        }
-    };
-};
+//directly calls reducer to change state
+// const addBlogPost = (dispatch) => {
+//     return (title, content, callback) => {
+//         dispatch({
+//             type: "add_blogPost",
+//             payload: {
+//                 title: title,
+//                 content: content,
+//             },
+//         });
+//         if (callback) {
+//             callback();
+//         }
+//     };
+// };
+
+// const deleteBlogPost = (dispatch) => {
+//     return (id) => {
+//         dispatch({
+//             type: "delete_blogPost",
+//             payload: id,
+//         });
+//     };
+// };
+
+// const editBlogPost = (dispatch) => {
+//     return (id, title, content, callback) => {
+//         dispatch({
+//             type: "edit_blogPost",
+//             payload: {
+//                 id: id,
+//                 title: title,
+//                 content: content,
+//             },
+//         });
+//         if (callback) {
+//             callback();
+//         }
+//     };
+// };
 
 export const { Context, Provider } = createDataContext(
     blogReducer,
-    { addBlogPost, deleteBlogPost, editBlogPost },
+    { addBlogPost, deleteBlogPost, editBlogPost, fetchBlogPost },
     []
 );
 
