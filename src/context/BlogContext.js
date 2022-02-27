@@ -16,6 +16,7 @@ const blogReducer = (state, action) => {
                 },
             ];
         case "delete_blogPost":
+            //THIS WAY ALSO WORKS
             // const newBlog = [];
 
             // for (blog of state) {
@@ -27,25 +28,38 @@ const blogReducer = (state, action) => {
             return state.filter((blog) => blog.id !== action.payload);
 
         case "edit_blogPost":
-            const newBlog = [];
-            for (blog of state) {
-                if (blog.id !== action.payload.id) {
-                    newBlog.push(blog);
-                } else {
-                    newBlog.push({
-                        id: action.payload.id,
-                        title: action.payload.title,
-                        content: action.payload.content,
-                    });
-                }
-            }
-            return newBlog;
+            // const newBlog = [];
+            // for (blog of state) {
+            //     if (blog.id !== action.payload.id) {
+            //         newBlog.push(blog);
+            //     } else {
+            //         // newBlog.push({
+            //         //     id: action.payload.id,
+            //         //     title: action.payload.title,
+            //         //     content: action.payload.content,
+            //         // });
+            //         newBlog.push(action.payload);
+            //     }
+            // }
+            // return newBlog;
 
+            // return state.map((blog) => {
+            //     if (blog.id === action.payload.id) {
+            //         return action.payload;
+            //     } else {
+            //         return blog;
+            //     }
+            // });
+
+            return state.map((blog) => {
+                return blog.id === action.payload.id ? action.payload : blog;
+            });
         default:
             return state;
     }
 };
 
+//action function
 const addBlogPost = (dispatch) => {
     return (title, content, callback) => {
         dispatch({

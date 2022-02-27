@@ -17,7 +17,7 @@ const navigator = createStackNavigator(
     {
         initialRouteName: "HomeScreen",
         defaultNavigationOptions: {
-            title: "Blogs",
+            title: "Blog",
         },
     }
 );
