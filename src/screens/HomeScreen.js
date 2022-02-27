@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
     View,
     Text,
@@ -11,7 +11,17 @@ import { Context } from "../context/BlogContext";
 import { AntDesign } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }) => {
-    const { state, deleteBlogPost } = useContext(Context);
+    const { state, fetchBlogPost } = useContext(Context);
+
+    /* Never call a function that calls a server by itself
+    becasue when our component renders, it will call fetchBlogPost() which will return some data
+    and it causes our component to re-render. and it will again call the fetchBlogPost() which will cause it
+    to re-render. so its going to be called infinitely. */
+
+    useEffect(() => {
+        fetchBlogPost();
+    }, []);
+
     return (
         <View>
             <FlatList
