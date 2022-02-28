@@ -19,7 +19,21 @@ const HomeScreen = ({ navigation }) => {
     to re-render. so its going to be called infinitely. */
 
     useEffect(() => {
+        //fetch the 1st time the component gets rendered
         fetchBlogPost();
+
+        //gets called when routing back to this component
+        //when the component is focused meaning if this screen is the main screen the call back functions gets run
+        const listener = navigation.addListener("didFocus", () => {
+            fetchBlogPost();
+        });
+
+        //gets called when our component is unmounted.
+        return (
+            //clean up function
+            //will remove the listener to prevent memory leak
+            listener.remove()
+        );
     }, []);
 
     return (
