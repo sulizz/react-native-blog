@@ -11,7 +11,6 @@ const blogReducer = (state, action) => {
             return [
                 ...state,
                 {
-                    id: Math.floor(Math.random() * 99999),
                     title: action.payload.title,
                     content: action.payload.content,
                 },
@@ -78,6 +77,28 @@ const fetchBlogPost = (dispatch) => {
     };
 };
 
+const addBlogPost = (dispatch) => {
+    return async (title, content, callback) => {
+        //1st arg is the url that we want to post the data to.
+        //2nd arg is the information that we want to send to our server
+
+        await jsonServer.post("/blogposts", {
+            title,
+            content,
+        });
+        // dispatch({
+        //     type: "add_blogPost",
+        //     payload: {
+        //         title,
+        //         content,
+        //     },
+        // });
+        if (callback) {
+            callback();
+        }
+    };
+};
+
 //directly calls reducer to change state
 // const addBlogPost = (dispatch) => {
 //     return (title, content, callback) => {
@@ -94,30 +115,30 @@ const fetchBlogPost = (dispatch) => {
 //     };
 // };
 
-// const deleteBlogPost = (dispatch) => {
-//     return (id) => {
-//         dispatch({
-//             type: "delete_blogPost",
-//             payload: id,
-//         });
-//     };
-// };
+const deleteBlogPost = (dispatch) => {
+    return (id) => {
+        dispatch({
+            type: "delete_blogPost",
+            payload: id,
+        });
+    };
+};
 
-// const editBlogPost = (dispatch) => {
-//     return (id, title, content, callback) => {
-//         dispatch({
-//             type: "edit_blogPost",
-//             payload: {
-//                 id: id,
-//                 title: title,
-//                 content: content,
-//             },
-//         });
-//         if (callback) {
-//             callback();
-//         }
-//     };
-// };
+const editBlogPost = (dispatch) => {
+    return (id, title, content, callback) => {
+        dispatch({
+            type: "edit_blogPost",
+            payload: {
+                id: id,
+                title: title,
+                content: content,
+            },
+        });
+        if (callback) {
+            callback();
+        }
+    };
+};
 
 export const { Context, Provider } = createDataContext(
     blogReducer,
