@@ -11,7 +11,7 @@ import { Context } from "../context/BlogContext";
 import { AntDesign } from "@expo/vector-icons";
 
 const HomeScreen = ({ navigation }) => {
-    const { state, fetchBlogPost } = useContext(Context);
+    const { state, fetchBlogPost, deleteBlogPost } = useContext(Context);
 
     /* Never call a function that calls a server by itself
     becasue when our component renders, it will call fetchBlogPost() which will return some data
