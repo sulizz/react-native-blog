@@ -25,7 +25,7 @@ const BlogForm = ({ onSubmit, buttonTitle, state }) => {
         </View>
     );
 };
-
+//default props
 BlogForm.defaultProps = {
     state: {
         title: "",
