@@ -13,7 +13,6 @@ const ShowScreen = ({ navigation }) => {
 
     return (
         <View>
-            <Text>Show Screen</Text>
             <Text>{singleBlogPost.title}</Text>
             <Text>{singleBlogPost.content}</Text>
         </View>
